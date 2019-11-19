@@ -6,15 +6,13 @@ class ListNode(object):
         self.val = val
         self.next = next
 """
-
-
 class Solution:
     """
     @param lists: a list of ListNode
     @return: The head of one sorted list.
     """
-
     def mergeKLists(self, lists):
+        # write your code here
         if not lists:
             return None
 
@@ -27,22 +25,31 @@ class Solution:
         mid = (start + end) // 2
         left = self.merge_range_lists(lists, start, mid)
         right = self.merge_range_lists(lists, mid + 1, end)
-        return self.merge_two_lists(left, right)
+        return self.mergeSortedArray(left, right)
 
-    def merge_two_lists(self, head1, head2):
+    def mergeSortedArray(self, headA, headB):
+        # write your code here
         tail = dummy = ListNode(0)
-        while head1 and head2:
-            if head1.val < head2.val:
-                tail.next = head1
-                head1 = head1.next
-            else:
-                tail.next = head2
-                head2 = head2.next
-            tail = tail.next
+        while headA and headB:
 
-        if head1:
-            tail.next = head1
-        if head2:
-            tail.next = head2
+            if headA.val > headB.val:
+                tail.next = headB
+                tail = headB
+                headB = headB.next
+            else:
+                tail.next = headA
+                tail = headA
+                headA = headA.next
+
+        if headA:
+            while headA:
+                tail.next = headA
+                tail = headA
+                headA = headA.next
+        if headB:
+            while headB:
+                tail.next = headB
+                tail = headB
+                headB = headB.next
 
         return dummy.next
